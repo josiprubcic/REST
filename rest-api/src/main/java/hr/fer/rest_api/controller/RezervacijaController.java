@@ -29,9 +29,6 @@ public class RezervacijaController {
 
     @PostMapping
     public ResponseEntity<?> createReservation(@Valid @RequestBody RezervacijaRequest request) {
-
-        return ResponseEntity.status(HttpStatus.CREATED).
-                body(rezervacijaService.createReservation(request));
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(rezervacijaService.createReservation(request));
     }
 }

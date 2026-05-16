@@ -32,19 +32,16 @@ public class RezervacijaService {
     private final SportskiCentarRepository sportskiCentarRepository;
 
     public RezervacijaDTO createReservation(RezervacijaRequest request) {
-
         validateReservationInterval(request);
-
-
-        SportasRekreativac rekreativac = sportasRekreativacRepository.findById(request.getIdKorisnika())
+        SportasRekreativac rekreativac = sportasRekreativacRepository.findById(request.getIdKorisnik())
                 .orElseThrow(() -> new ResourceNotFoundException("Korisnik not found"));
-        TerenId terenId = new TerenId(request.getIdCentra(), request.getIdTerena());
+        TerenId terenId = new TerenId(request.getIdCentar(), request.getIdTeren());
         Teren teren = terenRepository.findById(terenId)
                 .orElseThrow(() -> new ResourceNotFoundException("Teren not found"));
 
         boolean terminReserved = rezervacijaRepository.existsOverlappingReservation(
-                request.getIdCentra(),
-                request.getIdTerena(),
+                request.getIdCentar(),
+                request.getIdTeren(),
                 request.getVrijemePocetka(),
                 request.getVrijemeZavrsetka()
         );

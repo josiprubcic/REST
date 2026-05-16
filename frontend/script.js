@@ -1,5 +1,5 @@
 const API_BASE_URL = 'http://localhost:8080/api';
-const TRENUTNI_KORISNIK_ID = 42; // Simulacija ulogiranog sportaša
+const TRENUTNI_KORISNIK_ID = 1; // Simulacija ulogiranog sportaša
 
 // --- NOVO: Pokretanje aplikacije i inicijalni fetch centara ---
 document.addEventListener('DOMContentLoaded', inicijalizirajAplikaciju);
