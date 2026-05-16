@@ -9,13 +9,13 @@ import java.time.LocalDateTime;
 @Data
 public class RezervacijaRequest {
     @NotNull(message = "Korisnik je obavezan")
-    private Integer idKorisnika;
+    private Integer idKorisnik;
 
     @NotNull(message = "Sportski centar je obavezan")
-    private Integer idCentra;
+    private Integer idCentar;
 
     @NotBlank(message = "Teren je obavezan")
-    private String idTerena;
+    private String idTeren;
 
     @NotNull(message = "Vrijeme pocetka je obavezno")
     private LocalDateTime vrijemePocetka;

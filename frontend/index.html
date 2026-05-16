@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="hr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rezervacija Sportskih Terena</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Rezerviraj svoj termin ⚽ 🎾</h1>
+
+      <!-- Forma za pretraživanje -->
+      <div class="search-box">
+        <div class="form-group">
+          <label for="centarSelect">Odaberi sportski centar:</label>
+          <select id="centarSelect">
+            <option value="">-- Učitavam sportske centre... --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="datumInput">Odaberi datum:</label>
+          <input type="date" id="datumInput" />
+        </div>
+
+        <button id="traziBtn" class="btn-primarni">
+          Pretraži slobodne termine
+        </button>
+      </div>
+
+      <!-- Mjesto gdje JS crta terene i termine -->
+      <div id="loading" class="skriveno">Učitavam termine...</div>
+      <div id="tereni-kontejner"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
