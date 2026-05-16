@@ -13,6 +13,8 @@ public interface SportskiCentarRepository extends JpaRepository<SportskiCentar, 
 
     List<SportskiCentar> findByMjesto_IdMjesto(Integer idMjesto);
 
+    boolean existsByMjesto_IdMjesto(Integer idMjesto);
+
     List<SportskiCentar> findByNazivCentraContainingIgnoreCaseAndMjesto_IdMjesto(
             String search,
             Integer idMjesto

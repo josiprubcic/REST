@@ -12,4 +12,6 @@ public interface TerenRepository extends JpaRepository<Teren, TerenId> {
     List<Teren> findBySportskiCentarIdCentar(Integer idCentar);
 
     boolean existsBySportskiCentar_IdCentar(Integer idCentar);
+
+    boolean existsBySport_IdSport(Integer idSport);
 }

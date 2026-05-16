@@ -7,6 +7,7 @@ import hr.fer.rest_api.exception.ResourceNotFoundException;
 import hr.fer.rest_api.mapper.MjestoMapper;
 import hr.fer.rest_api.model.Mjesto;
 import hr.fer.rest_api.repository.MjestoRepository;
+import hr.fer.rest_api.repository.SportskiCentarRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.List;
 public class MjestoService {
 
     private final MjestoRepository mjestoRepository;
+    private final SportskiCentarRepository sportskiCentarRepository;
 
-    public MjestoService(MjestoRepository mjestoRepository) {
+    public MjestoService(MjestoRepository mjestoRepository, SportskiCentarRepository sportskiCentarRepository) {
         this.mjestoRepository = mjestoRepository;
+        this.sportskiCentarRepository = sportskiCentarRepository;
     }
 
     public List<MjestoDTO> getAll(String search) {
@@ -74,6 +77,11 @@ public class MjestoService {
 
     public void delete(Integer id) {
         Mjesto mjesto = findMjesto(id);
+
+        if (sportskiCentarRepository.existsByMjesto_IdMjesto(id)) {
+            throw new ConflictException("Mjesto se ne može obrisati jer ga koristi barem jedan sportski centar");
+        }
+
         mjestoRepository.delete(mjesto);
     }
 

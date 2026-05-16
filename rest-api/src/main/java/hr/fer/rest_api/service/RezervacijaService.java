@@ -63,7 +63,7 @@ public class RezervacijaService {
     public List<SlobodniTerminDTO> getAvailableTermini(Integer idCentar, LocalDate datum) {
 
         SportskiCentar centar = sportskiCentarRepository.findById(idCentar)
-                .orElseThrow(() -> new RuntimeException("Sportski centar not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Sportski centar nije pronađen"));
         LocalTime radnoOd;
         LocalTime radnoDo;
         DayOfWeek danUtjednu = datum.getDayOfWeek();
@@ -78,7 +78,6 @@ public class RezervacijaService {
         LocalDateTime pocetakDana = datum.atStartOfDay();
         LocalDateTime krajDana = datum.atTime(LocalTime.MAX);
         List<Rezervacija> zauzeteRezervacije = rezervacijaRepository.findZauzeteRezervacije(idCentar, pocetakDana, krajDana);
-        System.out.println(zauzeteRezervacije);
 
         List<Teren> sviTereni = terenRepository.findBySportskiCentarIdCentar(idCentar);
         List<SlobodniTerminDTO> sviSlobodniTermini = new ArrayList<>();

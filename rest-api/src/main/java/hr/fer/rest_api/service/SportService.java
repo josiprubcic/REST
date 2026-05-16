@@ -7,6 +7,7 @@ import hr.fer.rest_api.exception.ResourceNotFoundException;
 import hr.fer.rest_api.mapper.SportMapper;
 import hr.fer.rest_api.model.Sport;
 import hr.fer.rest_api.repository.SportRepository;
+import hr.fer.rest_api.repository.TerenRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.List;
 public class SportService {
 
     private final SportRepository sportRepository;
+    private final TerenRepository terenRepository;
 
-    public SportService(SportRepository sportRepository) {
+    public SportService(SportRepository sportRepository, TerenRepository terenRepository) {
         this.sportRepository = sportRepository;
+        this.terenRepository = terenRepository;
     }
 
     public List<SportDTO> getAll(String search){
@@ -72,6 +75,11 @@ public class SportService {
 
     public void delete(Integer id) {
         Sport sport = findSport(id);
+
+        if (terenRepository.existsBySport_IdSport(id)) {
+            throw new ConflictException("Sport se ne može obrisati jer ga koristi barem jedan teren");
+        }
+
         sportRepository.delete(sport);
     }
 
