@@ -45,9 +45,7 @@ public class RezervacijaService {
             throw new ConflictException("Termin already reserved");
         }
 
-        if (!request.getVrijemePocetka().isBefore(request.getVrijemeZavrsetka())) {
-            throw new RequestValidationException("Vrijeme početka mora biti prije vremena završetka");
-        }
+
         Rezervacija rezervacija = new Rezervacija();
         rezervacija.setSportasRekreativac(rekreativac);
         rezervacija.setTeren(teren);
