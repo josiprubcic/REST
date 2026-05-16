@@ -1,7 +1,8 @@
 package hr.fer.rest_api.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
@@ -9,7 +10,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "rezervacija", schema = "public",
         uniqueConstraints = @UniqueConstraint(columnNames = {"id_centar", "id_teren", "vrijeme_pocetka"}))
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Rezervacija {
@@ -34,6 +36,6 @@ public class Rezervacija {
     @Column(name = "vrijeme_pocetka", nullable = false)
     private LocalDateTime vrijemePocetka;
 
-    @Column(name = "vrijeme_zavrsetka")
+    @Column(name = "vrijeme_zavrsetka", nullable = false)
     private LocalDateTime vrijemeZavrsetka;
 }
