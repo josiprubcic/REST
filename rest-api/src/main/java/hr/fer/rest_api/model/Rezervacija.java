@@ -1,17 +1,14 @@
 package hr.fer.rest_api.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "rezervacija", schema = "public",
         uniqueConstraints = @UniqueConstraint(columnNames = {"id_centar", "id_teren", "vrijeme_pocetka"}))
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Rezervacija {
