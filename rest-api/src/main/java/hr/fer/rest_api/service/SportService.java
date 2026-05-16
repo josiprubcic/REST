@@ -21,9 +21,10 @@ public class SportService {
     }
 
     public List<SportDTO> getAll(String search){
-        List<Sport> sports = search == null || search.isBlank()
+        String normalizedSearch = search == null ? null : search.trim();
+        List<Sport> sports = normalizedSearch == null || normalizedSearch.isBlank()
                 ? sportRepository.findAll()
-                : sportRepository.findByNazivSportaContainingIgnoreCase(search);
+                : sportRepository.findByNazivSportaContainingIgnoreCase(normalizedSearch);
 
         return sports.stream()
                 .map(SportMapper::toDto)

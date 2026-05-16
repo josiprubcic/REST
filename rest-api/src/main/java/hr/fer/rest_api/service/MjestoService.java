@@ -21,11 +21,12 @@ public class MjestoService {
     }
 
     public List<MjestoDTO> getAll(String search) {
-        List<Mjesto> mjesta = search == null || search.isBlank()
+        String normalizedSearch = search == null ? null : search.trim();
+        List<Mjesto> mjesta = normalizedSearch == null || normalizedSearch.isBlank()
                 ? mjestoRepository.findAll()
                 : mjestoRepository.findByNazivMjestaContainingIgnoreCaseOrPostanskiBrojContainingIgnoreCase(
-                        search,
-                        search
+                        normalizedSearch,
+                        normalizedSearch
                 );
 
         return mjesta.stream()
