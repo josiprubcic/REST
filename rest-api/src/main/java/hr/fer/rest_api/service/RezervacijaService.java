@@ -2,6 +2,9 @@ package hr.fer.rest_api.service;
 
 import hr.fer.rest_api.dto.RezervacijaDTO;
 import hr.fer.rest_api.dto.RezervacijaRequest;
+import hr.fer.rest_api.exception.ConflictException;
+import hr.fer.rest_api.exception.ResourceNotFoundException;
+import hr.fer.rest_api.exception.RequestValidationException;
 import hr.fer.rest_api.mapper.RezervacijaMapper;
 import hr.fer.rest_api.model.Rezervacija;
 import hr.fer.rest_api.model.SportasRekreativac;
@@ -22,11 +25,15 @@ public class RezervacijaService {
     private final TerenRepository terenRepository;
 
     public RezervacijaDTO createReservation(RezervacijaRequest request) {
+
+        validateReservationInterval(request);
+
+
         SportasRekreativac rekreativac = sportasRekreativacRepository.findById(request.getIdKorisnika())
-                .orElseThrow(() -> new RuntimeException("Korisnik not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Korisnik not found"));
         TerenId terenId = new TerenId(request.getIdCentra(), request.getIdTerena());
         Teren teren = terenRepository.findById(terenId)
-                .orElseThrow(() -> new RuntimeException("Teren not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Teren not found"));
 
         boolean terminReserved = rezervacijaRepository.existsOverlappingReservation(
                 request.getIdCentra(),
@@ -35,7 +42,11 @@ public class RezervacijaService {
                 request.getVrijemeZavrsetka()
         );
         if (terminReserved) {
-            throw new RuntimeException("Termin already reserved");
+            throw new ConflictException("Termin already reserved");
+        }
+
+        if (!request.getVrijemePocetka().isBefore(request.getVrijemeZavrsetka())) {
+            throw new RequestValidationException("Vrijeme početka mora biti prije vremena završetka");
         }
         Rezervacija rezervacija = new Rezervacija();
         rezervacija.setSportasRekreativac(rekreativac);
@@ -43,6 +54,17 @@ public class RezervacijaService {
         rezervacija.setVrijemePocetka(request.getVrijemePocetka());
         rezervacija.setVrijemeZavrsetka(request.getVrijemeZavrsetka());
 
+
         return RezervacijaMapper.toDto(rezervacijaRepository.save(rezervacija));
+    }
+
+    private void validateReservationInterval(RezervacijaRequest request) {
+        if(request.getVrijemeZavrsetka() == null || request.getVrijemePocetka() == null){
+            throw new RequestValidationException("Vrijeme pocetka i zavrsetka su obavezni");
+        }
+
+        if(!request.getVrijemePocetka().isBefore(request.getVrijemeZavrsetka())){
+            throw new RequestValidationException("Vrijeme početka mora biti prije vremena zavrsetka");
+        }
     }
 }
