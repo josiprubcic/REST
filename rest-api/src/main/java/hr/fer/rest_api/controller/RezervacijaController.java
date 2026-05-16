@@ -24,9 +24,7 @@ public class RezervacijaController {
     @PostMapping
     public ResponseEntity<?> createReservation(@RequestBody RezervacijaRequest request) {
         try {
-            Rezervacija rezervacija = rezervacijaService.createReservation(request);
-            RezervacijaDTO dto = RezervacijaMapper.toDto(rezervacija);
-            return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(rezervacijaService.createReservation(request));
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {

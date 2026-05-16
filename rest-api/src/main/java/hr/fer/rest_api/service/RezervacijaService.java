@@ -1,6 +1,8 @@
 package hr.fer.rest_api.service;
 
+import hr.fer.rest_api.dto.RezervacijaDTO;
 import hr.fer.rest_api.dto.RezervacijaRequest;
+import hr.fer.rest_api.mapper.RezervacijaMapper;
 import hr.fer.rest_api.model.Rezervacija;
 import hr.fer.rest_api.model.SportasRekreativac;
 import hr.fer.rest_api.model.Teren;
@@ -19,7 +21,7 @@ public class RezervacijaService {
     private final SportasRekreativacRepository sportasRekreativacRepository;
     private final TerenRepository terenRepository;
 
-    public Rezervacija createReservation(RezervacijaRequest request) {
+    public RezervacijaDTO createReservation(RezervacijaRequest request) {
         SportasRekreativac rekreativac = sportasRekreativacRepository.findById(request.getIdKorisnika())
                 .orElseThrow(() -> new RuntimeException("Korisnik not found"));
         TerenId terenId = new TerenId(request.getIdCentra(), request.getIdTerena());
@@ -41,6 +43,6 @@ public class RezervacijaService {
         rezervacija.setVrijemePocetka(request.getVrijemePocetka());
         rezervacija.setVrijemeZavrsetka(request.getVrijemeZavrsetka());
 
-        return rezervacijaRepository.save(rezervacija);
+        return RezervacijaMapper.toDto(rezervacijaRepository.save(rezervacija));
     }
 }
