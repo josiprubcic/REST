@@ -5,6 +5,7 @@ import hr.fer.rest_api.dto.RezervacijaRequest;
 import hr.fer.rest_api.mapper.RezervacijaMapper;
 import hr.fer.rest_api.model.Rezervacija;
 import hr.fer.rest_api.service.RezervacijaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -27,13 +28,10 @@ public class RezervacijaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createReservation(@RequestBody RezervacijaRequest request) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(rezervacijaService.createReservation(request));
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+    public ResponseEntity<?> createReservation(@Valid @RequestBody RezervacijaRequest request) {
+
+        return ResponseEntity.status(HttpStatus.CREATED).
+                body(rezervacijaService.createReservation(request));
+
     }
 }

@@ -3,6 +3,9 @@ package hr.fer.rest_api.service;
 import hr.fer.rest_api.dto.RezervacijaDTO;
 import hr.fer.rest_api.dto.RezervacijaRequest;
 import hr.fer.rest_api.dto.SlobodniTerminDTO;
+import hr.fer.rest_api.exception.ConflictException;
+import hr.fer.rest_api.exception.ResourceNotFoundException;
+import hr.fer.rest_api.exception.RequestValidationException;
 import hr.fer.rest_api.mapper.RezervacijaMapper;
 import hr.fer.rest_api.model.*;
 import hr.fer.rest_api.repository.RezervacijaRepository;
@@ -12,7 +15,6 @@ import hr.fer.rest_api.repository.TerenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,11 +32,15 @@ public class RezervacijaService {
     private final SportskiCentarRepository sportskiCentarRepository;
 
     public RezervacijaDTO createReservation(RezervacijaRequest request) {
+
+        validateReservationInterval(request);
+
+
         SportasRekreativac rekreativac = sportasRekreativacRepository.findById(request.getIdKorisnika())
-                .orElseThrow(() -> new RuntimeException("Korisnik not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Korisnik not found"));
         TerenId terenId = new TerenId(request.getIdCentra(), request.getIdTerena());
         Teren teren = terenRepository.findById(terenId)
-                .orElseThrow(() -> new RuntimeException("Teren not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Teren not found"));
 
         boolean terminReserved = rezervacijaRepository.existsOverlappingReservation(
                 request.getIdCentra(),
@@ -43,7 +49,11 @@ public class RezervacijaService {
                 request.getVrijemeZavrsetka()
         );
         if (terminReserved) {
-            throw new RuntimeException("Termin already reserved");
+            throw new ConflictException("Termin already reserved");
+        }
+
+        if (!request.getVrijemePocetka().isBefore(request.getVrijemeZavrsetka())) {
+            throw new RequestValidationException("Vrijeme početka mora biti prije vremena završetka");
         }
         Rezervacija rezervacija = new Rezervacija();
         rezervacija.setSportasRekreativac(rekreativac);
@@ -104,5 +114,14 @@ public class RezervacijaService {
             }
         }
         return sviSlobodniTermini;
+    }
+    private void validateReservationInterval(RezervacijaRequest request) {
+        if(request.getVrijemeZavrsetka() == null || request.getVrijemePocetka() == null){
+            throw new RequestValidationException("Vrijeme pocetka i zavrsetka su obavezni");
+        }
+
+        if(!request.getVrijemePocetka().isBefore(request.getVrijemeZavrsetka())){
+            throw new RequestValidationException("Vrijeme početka mora biti prije vremena zavrsetka");
+        }
     }
 }
