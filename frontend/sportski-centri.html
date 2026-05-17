@@ -40,10 +40,10 @@
 
       <p id="pageMessage" class="message" role="status" aria-live="polite"></p>
 
-      <section class="split-layout">
-        <section class="panel" aria-labelledby="centriTitle">
+      <section class="panel-layout">
+        <section class="panel-master" aria-labelledby="tableTitle">
           <div class="section-title-row">
-            <h2 id="centriTitle">Popis centara</h2>
+            <h2 id="tableTitle">Popis sportskih centara</h2>
             <span id="centriCount" class="counter">0</span>
           </div>
           <div class="table-wrap">
@@ -53,8 +53,8 @@
                   <th>Naziv</th>
                   <th>Adresa</th>
                   <th>Mjesto</th>
-                  <th>Radno vrijeme</th>
-                  <th>Akcije</th>
+                  <th>Radno vrijeme (tjedan, vikend)</th>
+                  <th style="width: 100px">Akcija</th>
                 </tr>
               </thead>
               <tbody id="centriTableBody"></tbody>
@@ -62,81 +62,147 @@
           </div>
         </section>
 
-        <section class="panel" aria-labelledby="centarFormTitle">
-          <div class="section-title-row">
-            <h2 id="centarFormTitle">Novi centar</h2>
-            <button id="resetFormButton" class="ghost-button" type="button">
-              Novi unos
-            </button>
-          </div>
-
-          <form id="centarForm" class="form-grid">
-            <label class="full-width">
-              <span>Naziv centra</span>
-              <input
-                id="nazivCentra"
-                name="nazivCentra"
-                type="text"
-                required
-                maxlength="100"
-              />
-            </label>
-            <label class="full-width">
-              <span>Adresa</span>
-              <input
-                id="adresa"
-                name="adresa"
-                type="text"
-                required
-                maxlength="120"
-              />
-            </label>
-            <label class="full-width">
-              <span>Mjesto</span>
-              <select id="idMjesto" name="idMjesto" required></select>
-            </label>
-            <label>
-              <span>Tjedan od</span>
-              <input
-                id="radnoVrijemeTjedanOd"
-                name="radnoVrijemeTjedanOd"
-                type="time"
-              />
-            </label>
-            <label>
-              <span>Tjedan do</span>
-              <input
-                id="radnoVrijemeTjedanDo"
-                name="radnoVrijemeTjedanDo"
-                type="time"
-              />
-            </label>
-            <label>
-              <span>Vikend od</span>
-              <input
-                id="radnoVrijemeVikendOd"
-                name="radnoVrijemeVikendOd"
-                type="time"
-              />
-            </label>
-            <label>
-              <span>Vikend do</span>
-              <input
-                id="radnoVrijemeVikendDo"
-                name="radnoVrijemeVikendDo"
-                type="time"
-              />
-            </label>
-            <div class="button-row full-width">
+        <section class="panel-sidebar">
+          <section class="subsection" aria-labelledby="centarFormTitle">
+            <div class="section-title-row compact">
+              <h3 id="centarFormTitle">Novi centar</h3>
               <button
-                id="saveCentarButton"
-                class="primary-button"
-                type="submit"
+                id="resetFormButton"
+                class="secondary-button"
+                type="button"
+                style="min-height: 24px; padding: 2px 8px; font-size: 13px"
               >
-                Spremi centar
+                Očisti
               </button>
             </div>
-          </form>
+            <form id="centarForm" class="form-grid">
+              <label class="full-width">
+                <span>Naziv sportskog centra</span>
+                <input
+                  id="nazivCentra"
+                  name="nazivCentra"
+                  type="text"
+                  required
+                />
+              </label>
+              <label class="full-width">
+                <span>Adresa</span>
+                <input id="adresa" name="adresa" type="text" required />
+              </label>
+              <label class="full-width">
+                <span>Mjesto</span>
+                <select id="idMjesto" name="idMjesto" required></select>
+              </label>
+              <label>
+                <span>Tjedan od</span>
+                <input
+                  id="radnoVrijemeTjedanOd"
+                  name="radnoVrijemeTjedanOd"
+                  type="time"
+                />
+              </label>
+              <label>
+                <span>Tjedan do</span>
+                <input
+                  id="radnoVrijemeTjedanDo"
+                  name="radnoVrijemeTjedanDo"
+                  type="time"
+                />
+              </label>
+              <label>
+                <span>Vikend od</span>
+                <input
+                  id="radnoVrijemeVikendOd"
+                  name="radnoVrijemeVikendOd"
+                  type="time"
+                />
+              </label>
+              <label>
+                <span>Vikend do</span>
+                <input
+                  id="radnoVrijemeVikendDo"
+                  name="radnoVrijemeVikendDo"
+                  type="time"
+                />
+              </label>
+              <div class="button-row full-width">
+                <button
+                  id="saveCentarButton"
+                  class="primary-button"
+                  type="submit"
+                >
+                  Spremi centar
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <section
+            class="subsection"
+            style="margin-top: 32px"
+            aria-labelledby="mjestoFormTitle"
+          >
+            <div class="section-title-row compact">
+              <h3 id="mjestoFormTitle">Novo mjesto</h3>
+              <button
+                id="resetMjestoFormButton"
+                class="secondary-button"
+                type="button"
+                style="min-height: 24px; padding: 2px 8px; font-size: 13px"
+              >
+                Očisti
+              </button>
+            </div>
+            <form id="mjestoForm" class="form-grid" style="margin-bottom: 20px">
+              <label class="full-width">
+                <span>Naziv mjesta</span>
+                <input
+                  id="nazivMjesta"
+                  name="nazivMjesta"
+                  type="text"
+                  required
+                />
+              </label>
+              <label class="full-width">
+                <span>Poštanski broj</span>
+                <input
+                  id="postanskiBroj"
+                  name="postanskiBroj"
+                  type="text"
+                  required
+                  pattern="\d{5}"
+                  minlength="5"
+                  maxlength="5"
+                  title="Poštanski broj mora sadržavati točno 5 znamenki (npr. 10000)"
+                />
+              </label>
+              <div class="button-row full-width">
+                <button
+                  id="saveMjestoButton"
+                  class="primary-button"
+                  type="submit"
+                >
+                  Spremi mjesto
+                </button>
+              </div>
+            </form>
+
+            <div class="section-title-row compact">
+              <h3>Popis mjesta</h3>
+            </div>
+            <div class="table-wrap" style="max-height: 250px; overflow-y: auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Naziv</th>
+                    <th>P. broj</th>
+                    <th>Akcije</th>
+                  </tr>
+                </thead>
+                <tbody id="mjestaTableBody"></tbody>
+              </table>
+            </div>
+          </section>
         </section>
       </section>
     </main>
