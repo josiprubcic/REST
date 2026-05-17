@@ -150,8 +150,16 @@ public class SportskiCentarService {
             throw new BusinessRuleException(message);
         }
 
+        if (od != null && (!isFullHour(od) || !isFullHour(doVrijeme))) {
+            throw new BusinessRuleException(message + " - vrijeme mora biti uneseno u punim satima");
+        }
+
         if (od != null && !od.isBefore(doVrijeme)) {
             throw new BusinessRuleException(message);
         }
+    }
+
+    private boolean isFullHour(LocalTime time) {
+        return time.getMinute() == 0 && time.getSecond() == 0 && time.getNano() == 0;
     }
 }

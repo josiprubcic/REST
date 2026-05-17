@@ -35,14 +35,18 @@ public class SportskiCentarRequest {
     private Integer idMjesto;
 
     @Schema(example = "08:00")
+    @NotNull(message = "Početak radnog vremena kroz tjedan je obavezan")
     private LocalTime radnoVrijemeTjedanOd;
 
     @Schema(example = "22:00")
+    @NotNull(message = "Kraj radnog vremena kroz tjedan je obavezan")
     private LocalTime radnoVrijemeTjedanDo;
 
     @Schema(example = "09:00")
+    @NotNull(message = "Početak radnog vremena vikendom je obavezan")
     private LocalTime radnoVrijemeVikendOd;
 
     @Schema(example = "20:00")
+    @NotNull(message = "Kraj radnog vremena vikendom je obavezan")
     private LocalTime radnoVrijemeVikendDo;
 }

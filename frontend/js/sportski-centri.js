@@ -210,7 +210,7 @@
   async function loadCentri() {
     const params = {
       search: elements.searchInput.value,
-      idMjesto: elements.mjestoFilter.value,
+      mjestoId: elements.mjestoFilter.value,
     };
     const query = AppApi.buildQuery(params);
 
