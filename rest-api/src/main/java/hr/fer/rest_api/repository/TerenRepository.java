@@ -9,7 +9,9 @@ import java.util.List;
 
 @Repository
 public interface TerenRepository extends JpaRepository<Teren, TerenId> {
-    List<Teren> findBySportskiCentarIdCentar(Integer idCentar);
+    List<Teren> findBySportskiCentar_IdCentar(Integer idCentar);
+
+    List<Teren> findBySportskiCentar_IdCentarAndSport_IdSport(Integer idCentar, Integer idSport);
 
     boolean existsBySportskiCentar_IdCentar(Integer idCentar);
 

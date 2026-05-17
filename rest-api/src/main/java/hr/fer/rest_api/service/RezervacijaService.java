@@ -79,7 +79,7 @@ public class RezervacijaService {
         LocalDateTime krajDana = datum.atTime(LocalTime.MAX);
         List<Rezervacija> zauzeteRezervacije = rezervacijaRepository.findZauzeteRezervacije(idCentar, pocetakDana, krajDana);
 
-        List<Teren> sviTereni = terenRepository.findBySportskiCentarIdCentar(idCentar);
+        List<Teren> sviTereni = terenRepository.findBySportskiCentar_IdCentar(idCentar);
         List<SlobodniTerminDTO> sviSlobodniTermini = new ArrayList<>();
 
         for (Teren teren : sviTereni) {

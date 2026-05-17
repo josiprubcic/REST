@@ -1,6 +1,7 @@
 package hr.fer.rest_api.repository;
 
 import hr.fer.rest_api.model.Rezervacija;
+import hr.fer.rest_api.model.TerenId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +13,8 @@ import java.util.List;
 
 @Repository
 public interface RezervacijaRepository extends JpaRepository<Rezervacija, Long> {
+    boolean existsByTeren_Id(TerenId terenId);
+
     @Query("SELECT COUNT(r) > 0 FROM Rezervacija r WHERE r.teren.id.idCentar = :idCentar " +
             "AND r.teren.id.idTeren = :idTeren " +
             "AND (:pocetak < r.vrijemeZavrsetka AND :kraj > r.vrijemePocetka)")
