@@ -27,7 +27,6 @@ h1 {
   color: #0f172a;
 }
 
-/* Search Box */
 .search-box {
   background: var(--kartica-bg);
   padding: 20px;
@@ -66,7 +65,6 @@ input:focus {
   border-color: var(--primarna);
 }
 
-/* Gumbi */
 .btn-primarni {
   background-color: var(--primarna);
   color: white;
@@ -83,7 +81,6 @@ input:focus {
   background-color: var(--primarna-hover);
 }
 
-/* Kartice Terena i Termini */
 .teren-kartica {
   background: var(--kartica-bg);
   border: 1px solid var(--border);

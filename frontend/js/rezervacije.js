@@ -1,7 +1,6 @@
 const API_BASE_URL = 'http://localhost:8080/api';
-const TRENUTNI_KORISNIK_ID = 1; // Unutarnja simulacija ulogiranog sportaša
+const TRENUTNI_KORISNIK_ID = 1;
 
-// --- Pokretanje i Event Listeneri ---
 document.addEventListener('DOMContentLoaded', inicijalizirajAplikaciju);
 document
   .getElementById('traziBtn')
@@ -10,7 +9,6 @@ document.getElementById('datumInput').min = new Date()
   .toISOString()
   .split('T')[0];
 
-// Pomoćna funkcija za prikaz poruka na stranici (koristi tvoje klase .success i .error)
 function prikaziPoruku(tekst, tip = '') {
   const msgElement = document.getElementById('pageMessage');
   if (!tekst) {
@@ -25,7 +23,6 @@ function prikaziPoruku(tekst, tip = '') {
   msgElement.classList.remove('skriveno');
 }
 
-// --- 1. Inicijalizacija aplikacije ---
 async function inicijalizirajAplikaciju() {
   const centarSelect = document.getElementById('centarSelect');
 
@@ -49,11 +46,8 @@ async function inicijalizirajAplikaciju() {
     console.error('Greška:', error);
   }
 
-  // Odmah učitavamo i tablicu s rezervacijama korisnika na dnu stranice
   dohvatiKorisnikoveRezervacije();
 }
-
-// --- DIO 1: Slobodni termini ---
 
 async function dohvatiSlobodneTermine() {
   const idCentar = document.getElementById('centarSelect').value;
@@ -76,7 +70,7 @@ async function dohvatiSlobodneTermine() {
     if (!response.ok) throw new Error('Greška prilikom dohvaćanja termina.');
 
     const slobodniTermini = await response.json();
-    prikaziPoruku(''); // Sakrij poruku učitavanja
+    prikaziPoruku('');
 
     glavniBrojac.innerText = slobodniTermini.length;
 
@@ -86,7 +80,6 @@ async function dohvatiSlobodneTermine() {
       return;
     }
 
-    // Grupiranje po terenima
     const grupiraniTereni = {};
     slobodniTermini.forEach((termin) => {
       if (!grupiraniTereni[termin.idTeren]) {
@@ -99,7 +92,6 @@ async function dohvatiSlobodneTermine() {
       grupiraniTereni[termin.idTeren].slotovi.push(termin);
     });
 
-    // Crtanje podsekcija za terene unutar glavnog panela
     for (const terenId in grupiraniTereni) {
       const teren = grupiraniTereni[terenId];
 
@@ -123,7 +115,6 @@ async function dohvatiSlobodneTermine() {
         );
 
         const btn = document.createElement('button');
-        // Korištenje klasa iz tvog CSS-a: .secondary-button i .termin-button
         btn.className = 'secondary-button termin-button';
         btn.type = 'button';
         btn.innerText = satPrikaz;
@@ -168,8 +159,8 @@ async function kreirajRezervaciju(slot, idCentar) {
 
     if (response.ok) {
       prikaziPoruku('Uspješno ste rezervirali termin!', 'success');
-      dohvatiSlobodneTermine(); // Osvježi slobodne gumbe
-      dohvatiKorisnikoveRezervacije(); // Osvježi donju tablicu rasporeda
+      dohvatiSlobodneTermine();
+      dohvatiKorisnikoveRezervacije();
     } else {
       alert('Greška pri rezervaciji: ' + (await response.text()));
     }
@@ -177,8 +168,6 @@ async function kreirajRezervaciju(slot, idCentar) {
     alert('Server nije dostupan: ' + error.message);
   }
 }
-
-// --- DIO 2: Tablica "Moje Rezervacije" ---
 
 async function dohvatiKorisnikoveRezervacije() {
   const tBody = document.getElementById('rezervacije-body');
@@ -256,12 +245,11 @@ async function otkaziRezervaciju(idRezervacija) {
 
     if (response.ok) {
       prikaziPoruku('Rezervacija je uspješno otkazana.', 'success');
-      dohvatiKorisnikoveRezervacije(); // Osvježi tablicu
-
+      dohvatiKorisnikoveRezervacije();
       const idCentar = document.getElementById('centarSelect').value;
       const datum = document.getElementById('datumInput').value;
       if (idCentar && datum) {
-        dohvatiSlobodneTermine(); // Osvježi i dostupne gumbe ako je aktivna pretraga
+        dohvatiSlobodneTermine();
       }
     } else {
       alert('Greška pri otkazivanju: ' + (await response.text()));
