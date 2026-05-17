@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="hr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rezervacije</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Rezervacije</p>
+        <h1>Slobodni termini</h1>
+      </div>
+      <nav class="top-nav" aria-label="Glavna navigacija">
+        <a class="nav-link" href="sportski-centri.html">Centri</a>
+        <a class="nav-link active" href="index.html">Rezervacije</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="toolbar" aria-label="Pretraga slobodnih termina">
+        <label>
+          <span>Sportski centar</span>
+          <select id="centarSelect" required>
+            <option value="">-- Učitavam sportske centre... --</option>
+          </select>
+        </label>
+        <label>
+          <span>Datum</span>
+          <input id="datumInput" type="date" required />
+        </label>
+        <button id="traziBtn" class="primary-button" type="button">
+          Pretraži termine
+        </button>
+      </section>
+
+      <p
+        id="pageMessage"
+        class="message skriveno"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+      <section
+        class="panel"
+        aria-labelledby="terminiTitle"
+        style="margin-bottom: 32px"
+      >
+        <div class="section-title-row">
+          <h2 id="terminiTitle">Dostupni termini</h2>
+          <span id="terminiCount" class="counter">0</span>
+        </div>
+        <div id="tereni-kontejner">
+          <div class="empty-state">
+            Odaberite centar i datum te kliknite na pretragu.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="mojeRezervacijeTitle">
+        <div class="section-title-row">
+          <div>
+            <p class="eyebrow">Tvoj raspored</p>
+            <h2 id="mojeRezervacijeTitle">Moje Rezervacije</h2>
+          </div>
+          <span id="rezervacije-brojac" class="counter">0</span>
+        </div>
+
+        <div id="loading-rezervacije" class="message skriveno">
+          Učitavam tvoje rezervacije...
+        </div>
+
+        <div class="table-wrap">
+          <table id="rezervacije-tablica">
+            <thead>
+              <tr>
+                <th>Sportski Centar</th>
+                <th>Teren</th>
+                <th>Datum</th>
+                <th>Vrijeme</th>
+                <th style="width: 120px">Akcija</th>
+              </tr>
+            </thead>
+            <tbody id="rezervacije-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/rezervacije.js"></script>
+  </body>
+</html>

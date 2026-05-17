@@ -27,8 +27,30 @@ public class RezervacijaController {
         return ResponseEntity.status(HttpStatus.OK).body(rezervacijaService.getAvailableTermini(idCentar, datum));
     }
 
+    @GetMapping
+    public ResponseEntity<?> getReservationsForUser(@RequestParam Integer idKorisnik) {
+        return ResponseEntity.status(HttpStatus.OK).body(rezervacijaService.getByIdKorisnik(idKorisnik));
+    }
+
     @PostMapping
     public ResponseEntity<?> createReservation(@Valid @RequestBody RezervacijaRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(rezervacijaService.createReservation(request));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> otkaziRezervaciju(@PathVariable("id") Long idRezervacija) {
+        try {
+            boolean canceled = rezervacijaService.cancelReservation(idRezervacija);
+            if (canceled) {
+                return ResponseEntity.ok("Rezervacija uspješno otkazana.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Rezervacija:" + idRezervacija + " ne postoji.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Greška na poslužitelju: " + e.getMessage());
+        }
+    }
+
+
+
 }

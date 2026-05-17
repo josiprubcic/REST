@@ -31,4 +31,6 @@ public interface RezervacijaRepository extends JpaRepository<Rezervacija, Long> 
             @Param("pocetakDana") LocalDateTime pocetakDana,
             @Param("krajDana") LocalDateTime krajDana
     );
+
+    List<Rezervacija> findBySportasRekreativac_IdKorisnik(Integer idKorisnik);
 }

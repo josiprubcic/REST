@@ -118,4 +118,19 @@ public class RezervacijaService {
             throw new RequestValidationException("Vrijeme početka mora biti prije vremena zavrsetka");
         }
     }
+
+    public List<RezervacijaDTO> getByIdKorisnik(Integer idKorisnik) {
+        List<Rezervacija> rezervacije = rezervacijaRepository.findBySportasRekreativac_IdKorisnik(idKorisnik);
+        return rezervacije.stream()
+                .map(RezervacijaMapper::toDto)
+                .toList();
+    }
+
+    public boolean cancelReservation(Long idRezervacija) {
+        if (rezervacijaRepository.existsById(idRezervacija)) {
+            rezervacijaRepository.deleteById(idRezervacija);
+            return true;
+        }
+        return false;
+    }
 }
