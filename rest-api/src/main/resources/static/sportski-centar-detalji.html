@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="hr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detalji sportskog centra</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div>
+            <p class="eyebrow">Master-detail</p>
+            <h1 id="pageTitle">Sportski centar</h1>
+        </div>
+        <nav class="top-nav" aria-label="Glavna navigacija">
+            <a class="nav-link" href="sportski-centri.html">Centri</a>
+            <a class="nav-link" href="rezervacije.html">Rezervacije</a>
+            <a class="nav-link" href="/swagger-ui.html">Swagger</a>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        <p id="pageMessage" class="message" role="status" aria-live="polite"></p>
+
+        <section class="panel" aria-labelledby="masterTitle">
+            <div class="section-title-row">
+                <div>
+                    <p class="eyebrow">Master</p>
+                    <h2 id="masterTitle">Podaci sportskog centra</h2>
+                </div>
+                <div class="button-row">
+                    <button id="deleteCentarButton" class="danger-button" type="button">Obriši centar</button>
+                </div>
+            </div>
+
+            <form id="centarForm" class="form-grid wide-form">
+                <label>
+                    <span>Naziv centra</span>
+                    <input id="nazivCentra" name="nazivCentra" type="text" required maxlength="100">
+                </label>
+                <label>
+                    <span>Adresa</span>
+                    <input id="adresa" name="adresa" type="text" required maxlength="120">
+                </label>
+                <label>
+                    <span>Mjesto</span>
+                    <select id="idMjesto" name="idMjesto" required></select>
+                </label>
+                <label>
+                    <span>Tjedan od</span>
+                    <input id="radnoVrijemeTjedanOd" name="radnoVrijemeTjedanOd" type="time">
+                </label>
+                <label>
+                    <span>Tjedan do</span>
+                    <input id="radnoVrijemeTjedanDo" name="radnoVrijemeTjedanDo" type="time">
+                </label>
+                <label>
+                    <span>Vikend od</span>
+                    <input id="radnoVrijemeVikendOd" name="radnoVrijemeVikendOd" type="time">
+                </label>
+                <label>
+                    <span>Vikend do</span>
+                    <input id="radnoVrijemeVikendDo" name="radnoVrijemeVikendDo" type="time">
+                </label>
+                <div class="button-row">
+                    <button class="primary-button" type="submit">Spremi master</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel" aria-labelledby="detailTitle">
+            <div class="section-title-row">
+                <div>
+                    <p class="eyebrow">Detail</p>
+                    <h2 id="detailTitle">Tereni centra</h2>
+                </div>
+                <label class="inline-filter">
+                    <span>Filter sporta</span>
+                    <select id="sportFilter">
+                        <option value="">Svi sportovi</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="detail-grid">
+                <section class="subsection" aria-labelledby="terenFormTitle">
+                    <div class="section-title-row compact">
+                        <h3 id="terenFormTitle">Novi teren</h3>
+                        <button id="resetTerenFormButton" class="ghost-button" type="button">Novi unos</button>
+                    </div>
+                    <form id="terenForm" class="form-grid">
+                        <label class="full-width">
+                            <span>Oznaka terena</span>
+                            <input id="idTeren" name="idTeren" type="text" required maxlength="20" placeholder="T1">
+                        </label>
+                        <label class="full-width">
+                            <span>Sport</span>
+                            <select id="idSport" name="idSport" required></select>
+                        </label>
+                        <label class="full-width">
+                            <span>Cijena</span>
+                            <input id="cijena" name="cijena" type="number" min="0.01" step="0.01" required>
+                        </label>
+                        <div class="button-row full-width">
+                            <button id="saveTerenButton" class="primary-button" type="submit">Spremi teren</button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="subsection" aria-labelledby="tereniTableTitle">
+                    <div class="section-title-row compact">
+                        <h3 id="tereniTableTitle">Popis terena</h3>
+                        <span id="tereniCount" class="counter">0</span>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Oznaka</th>
+                                    <th>Sport</th>
+                                    <th>Cijena</th>
+                                    <th>Akcije</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tereniTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/sportski-centar-detalji.js"></script>
+</body>
+</html>
