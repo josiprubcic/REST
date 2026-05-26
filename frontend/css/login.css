@@ -1,0 +1,32 @@
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: var(--bg);
+}
+
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px !important;
+}
+
+.form-container h2 {
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.btn-full {
+  width: 100%;
+  margin-top: 8px;
+}
+
+#error-message {
+  margin-top: 16px;
+}

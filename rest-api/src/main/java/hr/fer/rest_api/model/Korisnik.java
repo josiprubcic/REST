@@ -30,4 +30,7 @@ public class Korisnik {
 
     @Column(name = "tip_korisnika")
     private String tipKorisnika;
+
+    @Column(name = "lozinka")
+    private String lozinka;
 }

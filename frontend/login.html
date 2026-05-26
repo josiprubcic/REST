@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="hr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prijava</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/login.css" />
+  </head>
+  <body>
+    <div class="login-wrapper">
+      <div class="form-container panel">
+        <h2>Prijava</h2>
+        <p class="eyebrow" style="margin-bottom: 20px">Prijavite se u sustav</p>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email"
+              >Email:
+              <input
+                type="email"
+                id="email"
+                required
+                placeholder="primjer@mail.com"
+              />
+            </label>
+          </div>
+          <div class="form-group">
+            <label for="password"
+              >Lozinka:
+              <input
+                type="password"
+                id="password"
+                required
+                placeholder="••••••••"
+              />
+            </label>
+          </div>
+          <button type="submit" class="primary-button btn-full">
+            Prijavi se
+          </button>
+        </form>
+
+        <p id="error-message" class="message error" style="display: none"></p>
+      </div>
+    </div>
+
+    <script src="./js/login.js"></script>
+  </body>
+</html>
