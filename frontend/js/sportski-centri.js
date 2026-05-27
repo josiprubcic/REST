@@ -5,7 +5,6 @@
     mjesta: [],
     centri: [],
     editingId: null,
-    editingMjestoId: null,
   };
 
   const elements = {};
@@ -51,16 +50,6 @@
       'radnoVrijemeVikendDo',
     );
     elements.saveCentarButton = document.getElementById('saveCentarButton');
-
-    elements.mjestoForm = document.getElementById('mjestoForm');
-    elements.mjestoFormTitle = document.getElementById('mjestoFormTitle');
-    elements.resetMjestoFormButton = document.getElementById(
-      'resetMjestoFormButton',
-    );
-    elements.nazivMjesta = document.getElementById('nazivMjesta');
-    elements.postanskiBroj = document.getElementById('postanskiBroj');
-    elements.saveMjestoButton = document.getElementById('saveMjestoButton');
-    elements.mjestaTableBody = document.getElementById('mjestaTableBody');
   }
 
   function bindEvents() {
@@ -68,9 +57,6 @@
     elements.resetFilterButton.addEventListener('click', resetFilter);
     elements.centarForm.addEventListener('submit', saveCentar);
     elements.resetFormButton.addEventListener('click', resetForm);
-
-    elements.mjestoForm.addEventListener('submit', saveMjesto);
-    elements.resetMjestoFormButton.addEventListener('click', resetMjestoForm);
   }
 
   async function loadMjesta() {
@@ -87,124 +73,6 @@
       value: (m) => m.idMjesto,
       label: (m) => `${m.nazivMjesta} (${m.postanskiBroj})`,
     });
-
-    renderMjestaTable();
-  }
-
-  function renderMjestaTable() {
-    elements.mjestaTableBody.innerHTML = '';
-
-    state.mjesta.forEach((mjesto) => {
-      const row = document.createElement('tr');
-
-      AppApi.appendTextCell(row, mjesto.nazivMjesta);
-      AppApi.appendTextCell(row, mjesto.postanskiBroj);
-
-      const actionsCell = document.createElement('td');
-      const actionWrap = document.createElement('div');
-      actionWrap.className = 'row-actions';
-
-      const editBtn = document.createElement('button');
-      editBtn.type = 'button';
-      editBtn.className = 'secondary-button';
-      editBtn.style = 'min-height: 28px; padding: 2px 8px; font-size: 13px;';
-      editBtn.textContent = 'Uredi';
-      editBtn.addEventListener('click', () => fillMjestoForm(mjesto));
-
-      const deleteBtn = document.createElement('button');
-      deleteBtn.type = 'button';
-      deleteBtn.className = 'danger-button';
-      deleteBtn.style = 'min-height: 28px; padding: 2px 8px; font-size: 13px;';
-      deleteBtn.textContent = 'Obriši';
-      deleteBtn.addEventListener('click', () => deleteMjesto(mjesto));
-
-      actionWrap.append(editBtn, deleteBtn);
-      actionsCell.append(actionWrap);
-      row.append(actionsCell);
-
-      elements.mjestaTableBody.append(row);
-    });
-  }
-
-  async function saveMjesto(event) {
-    event.preventDefault();
-    AppApi.showMessage(elements.pageMessage, '');
-
-    const mjestoData = {
-      nazivMjesta: elements.nazivMjesta.value.trim(),
-      postanskiBroj: elements.postanskiBroj.value.trim(),
-    };
-
-    const isEdit = state.editingMjestoId !== null;
-    const url = isEdit
-      ? `${API_BASE_URL}/mjesta/${state.editingMjestoId}`
-      : `${API_BASE_URL}/mjesta`;
-    const method = isEdit ? 'PUT' : 'POST';
-
-    try {
-      await AppApi.request(url, {
-        method,
-        body: JSON.stringify(mjestoData),
-      });
-
-      AppApi.showMessage(
-        elements.pageMessage,
-        `Mjesto je uspješno ${isEdit ? 'ažurirano' : 'dodano'}.`,
-        'success',
-      );
-
-      resetMjestoForm();
-      await loadMjesta();
-      await loadCentri();
-    } catch (error) {
-      AppApi.showMessage(elements.pageMessage, error.message, 'error');
-    }
-  }
-
-  async function deleteMjesto(mjesto) {
-    if (
-      !confirm(
-        `Jeste li sigurni da želite obrisati mjesto "${mjesto.nazivMjesta}"?`,
-      )
-    ) {
-      return;
-    }
-
-    try {
-      await AppApi.request(`${API_BASE_URL}/mjesta/${mjesto.idMjesto}`, {
-        method: 'DELETE',
-      });
-
-      AppApi.showMessage(
-        elements.pageMessage,
-        'Mjesto uspješno obrisano.',
-        'success',
-      );
-      await loadMjesta();
-      await loadCentri();
-    } catch (error) {
-      AppApi.showMessage(
-        elements.pageMessage,
-        'Nije moguće obrisati mjesto. Provjerite koristi li ga neki sportski centar.',
-        'error',
-      );
-    }
-  }
-
-  function fillMjestoForm(mjesto) {
-    state.editingMjestoId = mjesto.idMjesto;
-    elements.mjestoFormTitle.textContent = 'Uredi mjesto';
-    elements.saveMjestoButton.textContent = 'Spremi promjene';
-    elements.nazivMjesta.value = mjesto.nazivMjesta || '';
-    elements.postanskiBroj.value = mjesto.postanskiBroj || '';
-    elements.nazivMjesta.focus();
-  }
-
-  function resetMjestoForm() {
-    state.editingMjestoId = null;
-    elements.mjestoForm.reset();
-    elements.mjestoFormTitle.textContent = 'Novo mjesto';
-    elements.saveMjestoButton.textContent = 'Spremi mjesto';
   }
 
   async function loadCentri() {
@@ -265,7 +133,9 @@
       editButton.type = 'button';
       editButton.className = 'secondary-button';
       editButton.textContent = 'Uredi';
-      editButton.addEventListener('click', () => fillForm(centar));
+      editButton.addEventListener('click', () => {
+        window.location.href = `sportski-centar-detalji.html?id=${centar.idCentar}`;
+      });
 
       actionWrap.append(editButton);
       actionsCell.append(actionWrap);

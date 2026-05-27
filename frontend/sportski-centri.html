@@ -14,6 +14,8 @@
       </div>
       <nav class="top-nav" aria-label="Glavna navigacija">
         <a class="nav-link active" href="sportski-centri.html">Centri</a>
+        <a class="nav-link" href="mjesta.html">Mjesta</a>
+        <a class="nav-link" href="sportovi.html">Sportovi</a>
         <a class="nav-link" href="rezervacije.html">Rezervacije</a>
       </nav>
     </header>
@@ -161,72 +163,6 @@
             </form>
           </section>
 
-          <section
-            class="subsection"
-            style="margin-top: 32px"
-            aria-labelledby="mjestoFormTitle"
-          >
-            <div class="section-title-row compact">
-              <h3 id="mjestoFormTitle">Novo mjesto</h3>
-              <button
-                id="resetMjestoFormButton"
-                class="secondary-button"
-                type="button"
-                style="min-height: 24px; padding: 2px 8px; font-size: 13px"
-              >
-                Očisti
-              </button>
-            </div>
-            <form id="mjestoForm" class="form-grid" style="margin-bottom: 20px">
-              <label class="full-width">
-                <span>Naziv mjesta</span>
-                <input
-                  id="nazivMjesta"
-                  name="nazivMjesta"
-                  type="text"
-                  required
-                />
-              </label>
-              <label class="full-width">
-                <span>Poštanski broj</span>
-                <input
-                  id="postanskiBroj"
-                  name="postanskiBroj"
-                  type="text"
-                  required
-                  pattern="\d{5}"
-                  minlength="5"
-                  maxlength="5"
-                  title="Poštanski broj mora sadržavati točno 5 znamenki (npr. 10000)"
-                />
-              </label>
-              <div class="button-row full-width">
-                <button
-                  id="saveMjestoButton"
-                  class="primary-button"
-                  type="submit"
-                >
-                  Spremi mjesto
-                </button>
-              </div>
-            </form>
-
-            <div class="section-title-row compact">
-              <h3>Popis mjesta</h3>
-            </div>
-            <div class="table-wrap" style="max-height: 250px; overflow-y: auto">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Naziv</th>
-                    <th>P. broj</th>
-                    <th>Akcije</th>
-                  </tr>
-                </thead>
-                <tbody id="mjestaTableBody"></tbody>
-              </table>
-            </div>
-          </section>
         </section>
       </section>
     </main>

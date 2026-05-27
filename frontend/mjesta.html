@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="hr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mjesta</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Šifrarnik</p>
+        <h1>Mjesta</h1>
+      </div>
+      <nav class="top-nav" aria-label="Glavna navigacija">
+        <a class="nav-link" href="sportski-centri.html">Centri</a>
+        <a class="nav-link active" href="mjesta.html">Mjesta</a>
+        <a class="nav-link" href="sportovi.html">Sportovi</a>
+        <a class="nav-link" href="rezervacije.html">Rezervacije</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <p id="pageMessage" class="message" role="status" aria-live="polite"></p>
+
+      <section class="panel" aria-labelledby="mjestoFormTitle">
+        <section class="subsection" aria-labelledby="mjestoFormTitle">
+          <div class="section-title-row compact">
+            <h3 id="mjestoFormTitle">Novo mjesto</h3>
+            <button
+              id="resetMjestoFormButton"
+              class="secondary-button"
+              type="button"
+              style="min-height: 24px; padding: 2px 8px; font-size: 13px"
+            >
+              Očisti
+            </button>
+          </div>
+          <form id="mjestoForm" class="form-grid">
+            <label class="full-width">
+              <span>Naziv mjesta</span>
+              <input
+                id="nazivMjesta"
+                name="nazivMjesta"
+                type="text"
+                required
+              />
+            </label>
+            <label class="full-width">
+              <span>Poštanski broj</span>
+              <input
+                id="postanskiBroj"
+                name="postanskiBroj"
+                type="text"
+                required
+                pattern="\d{5}"
+                minlength="5"
+                maxlength="5"
+                title="Poštanski broj mora sadržavati točno 5 znamenki (npr. 10000)"
+              />
+            </label>
+            <div class="button-row full-width">
+              <button
+                id="saveMjestoButton"
+                class="primary-button"
+                type="submit"
+              >
+                Spremi mjesto
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section
+          class="subsection"
+          style="margin-top: 20px"
+          aria-labelledby="mjestaTableTitle"
+        >
+          <div class="section-title-row">
+            <h2 id="mjestaTableTitle">Popis mjesta</h2>
+            <span id="mjestaCount" class="counter">0</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Naziv</th>
+                  <th>P. broj</th>
+                  <th style="width: 170px">Akcije</th>
+                </tr>
+              </thead>
+              <tbody id="mjestaTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/mjesta.js"></script>
+  </body>
+</html>

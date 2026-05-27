@@ -84,7 +84,7 @@ async function dohvatiSlobodneTermine() {
     slobodniTermini.forEach((termin) => {
       if (!grupiraniTereni[termin.idTeren]) {
         grupiraniTereni[termin.idTeren] = {
-          naziv: termin.nazivTerena,
+          naziv: termin.nazivTerena || termin.idTeren,
           id: termin.idTeren,
           slotovi: [],
         };
@@ -101,7 +101,7 @@ async function dohvatiSlobodneTermine() {
 
       subsection.innerHTML = `
         <div class="section-title-row compact">
-          <h3>${teren.idTeren}</h3>
+          <h3>${teren.naziv}</h3>
         </div>
       `;
 
@@ -137,7 +137,7 @@ async function kreirajRezervaciju(slot, idCentar) {
   });
   if (
     !confirm(
-      `Želiš li sigurno rezervirati ${slot.nazivTerena} u ${satPrikaz}h?`,
+      `Želiš li sigurno rezervirati ${slot.nazivTerena || slot.idTeren} u ${satPrikaz}h?`,
     )
   )
     return;
@@ -214,7 +214,7 @@ async function dohvatiKorisnikoveRezervacije() {
 
       tr.innerHTML = `
         <td><strong>${rez.nazivCentra || 'Sportski Centar'}</strong></td>
-        <td>${rez.nazivTerena || 'Teren'}</td>
+        <td>${rez.nazivTerena || rez.idTeren || 'Teren'}</td>
         <td>${datum}</td>
         <td class="price">${pocetak} - ${kraj}h</td>
         <td>
