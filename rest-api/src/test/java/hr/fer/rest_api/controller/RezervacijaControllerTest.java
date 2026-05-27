@@ -26,13 +26,22 @@ class RezervacijaControllerTest {
     private RezervacijaController rezervacijaController;
 
     @Test
+    @SuppressWarnings("unchecked")
     void shouldReturnReservationsForUser() {
-        List<RezervacijaDTO> ocekivaneRezervacije = Collections.emptyList();
+        RezervacijaDTO dummyDto = new RezervacijaDTO();
+        dummyDto.setIdCentar(1);
+        dummyDto.setIdTeren("Teren 1");
+
+        List<RezervacijaDTO> ocekivaneRezervacije = List.of(dummyDto);
         when(rezervacijaService.getByIdKorisnik(1)).thenReturn(ocekivaneRezervacije);
 
         ResponseEntity<?> response = rezervacijaController.getReservationsForUser(1);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(ocekivaneRezervacije);
+
+        List<RezervacijaDTO> stvarniRezultati = (List<RezervacijaDTO>) response.getBody();
+        assertThat(stvarniRezultati).isNotNull();
+        assertThat(stvarniRezultati.get(0).getIdTeren()).isEqualTo("Teren 1");
     }
 }

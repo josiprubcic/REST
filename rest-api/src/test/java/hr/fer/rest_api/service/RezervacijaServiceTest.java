@@ -6,7 +6,6 @@ import hr.fer.rest_api.exception.ConflictException;
 import hr.fer.rest_api.model.*;
 import hr.fer.rest_api.repository.RezervacijaRepository;
 import hr.fer.rest_api.repository.SportasRekreativacRepository;
-import hr.fer.rest_api.repository.SportskiCentarRepository;
 import hr.fer.rest_api.repository.TerenRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,20 +35,20 @@ class RezervacijaServiceTest {
     @Mock
     private TerenRepository terenRepository;
 
-    @Mock
-    private SportskiCentarRepository sportskiCentarRepository;
-
     @InjectMocks
     private RezervacijaService rezervacijaService;
 
     @Test
     void shouldCreateAndSaveReservation() {
+        LocalDateTime fiksniPocetak = LocalDateTime.of(2026, 5, 5, 14, 0);
+        LocalDateTime fiksniZavrsetak = fiksniPocetak.plusHours(1);
+
         RezervacijaRequest request = new RezervacijaRequest();
         request.setIdKorisnik(1);
         request.setIdCentar(1);
         request.setIdTeren("Teren 1");
-        request.setVrijemePocetka(LocalDateTime.now().plusHours(1));
-        request.setVrijemeZavrsetka(LocalDateTime.now().plusHours(2));
+        request.setVrijemePocetka(fiksniPocetak);
+        request.setVrijemeZavrsetka(fiksniZavrsetak);
 
         SportasRekreativac rekreativac = new SportasRekreativac();
         rekreativac.setIdKorisnik(1);
@@ -63,7 +62,14 @@ class RezervacijaServiceTest {
 
         when(sportasRekreativacRepository.findById(1)).thenReturn(Optional.of(rekreativac));
         when(terenRepository.findById(any(TerenId.class))).thenReturn(Optional.of(teren));
-        when(rezervacijaRepository.existsOverlappingReservation(any(), any(), any(), any())).thenReturn(false);
+
+        when(rezervacijaRepository.existsOverlappingReservation(
+                eq(1),
+                eq("Teren 1"),
+                eq(fiksniPocetak),
+                eq(fiksniZavrsetak)
+        )).thenReturn(false);
+
         when(rezervacijaRepository.save(any(Rezervacija.class))).thenAnswer(returnsFirstArg());
 
         RezervacijaDTO rezultat = rezervacijaService.createReservation(request);
@@ -75,25 +81,24 @@ class RezervacijaServiceTest {
 
     @Test
     void shouldThrowExceptionForConflictingReservations() {
+        LocalDateTime fiksniPocetak = LocalDateTime.of(2026, 5, 5, 14, 0);
+        LocalDateTime fiksniZavrsetak = fiksniPocetak.plusHours(1);
+
         RezervacijaRequest request = new RezervacijaRequest();
         request.setIdKorisnik(1);
         request.setIdCentar(1);
         request.setIdTeren("Teren 1");
-        request.setVrijemePocetka(LocalDateTime.now().plusHours(1));
-        request.setVrijemeZavrsetka(LocalDateTime.now().plusHours(2));
+        request.setVrijemePocetka(fiksniPocetak);
+        request.setVrijemeZavrsetka(fiksniZavrsetak);
 
-        when(sportasRekreativacRepository.findById(1))
-                .thenReturn(Optional.of(new SportasRekreativac()));
-
-        TerenId terenId = new TerenId(1, "Teren 1");
-        when(terenRepository.findById(eq(terenId)))
-                .thenReturn(Optional.of(new Teren()));
+        when(sportasRekreativacRepository.findById(1)).thenReturn(Optional.of(new SportasRekreativac()));
+        when(terenRepository.findById(any(TerenId.class))).thenReturn(Optional.of(new Teren()));
 
         when(rezervacijaRepository.existsOverlappingReservation(
                 eq(1),
                 eq("Teren 1"),
-                any(LocalDateTime.class),
-                any(LocalDateTime.class)
+                eq(fiksniPocetak),
+                eq(fiksniZavrsetak)
         )).thenReturn(true);
 
         assertThrows(ConflictException.class, () -> {

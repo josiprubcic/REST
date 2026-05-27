@@ -24,6 +24,9 @@ class RezervacijaRepositoryTest {
 
     @Test
     void shouldCreateReservationAndSaveIt() {
+        LocalDateTime fiksniPocetak = LocalDateTime.of(2026, 5, 5, 14, 0);
+        LocalDateTime fiksniZavrsetak = fiksniPocetak.plusHours(1);
+
         Korisnik korisnik = createDummyKorisnik("Ivan", "Ivić", "ivan@gmail.com", "SPORTAS_REKREATIVAC");
         entityManager.persist(korisnik);
         entityManager.flush();
@@ -38,7 +41,7 @@ class RezervacijaRepositoryTest {
         Teren teren = createDummyTeren(new TerenId(centar.getIdCentar(), "Teren 1"), centar);
         entityManager.persist(teren);
 
-        Rezervacija rezervacija = createDummyRezervacija(rekreativac, teren, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2));
+        Rezervacija rezervacija = createDummyRezervacija(rekreativac, teren, fiksniPocetak, fiksniZavrsetak);
         entityManager.persist(rezervacija);
 
         entityManager.flush();
